@@ -79,6 +79,23 @@ const Payments = ({ route, navigation }) => {
     }
   };
 
+  // Inside the Payments component
+
+const deletePayment = async (index) => {
+  try {
+    const updatedPayments = [...payments];
+    updatedPayments.splice(index, 1); // Remove the payment at the specified index
+
+    // Update AsyncStorage with the updated payments data
+    await AsyncStorage.setItem('payments', JSON.stringify(updatedPayments));
+
+    setPayments(updatedPayments);
+  } catch (error) {
+    console.error('Error deleting payment:', error);
+    Alert.alert('Error', 'Ocurrió un error al eliminar el pago.');
+  }
+};
+
   const renderRow = ({ item, index }) => {
     const rowStyle = index % 2 === 0 ? styles.rowEven : styles.rowOdd;
 
