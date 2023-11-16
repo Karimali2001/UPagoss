@@ -8,6 +8,8 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
+
 
 const Payments = ({ route, navigation }) => {
   const { data } = route.params;
@@ -68,10 +70,14 @@ const Payments = ({ route, navigation }) => {
   const saveToGallery = async () => {
     if (selectedImageUri) {
       try {
-        // Handle saving the image to the gallery
-        // You can use the selectedImageUri here to save the image
-        // into the device gallery using the appropriate logic
-        Alert.alert('Imagen guardada', 'La imagen se ha guardado en la galería.');
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+
+        if (status === 'granted') {
+          await MediaLibrary.saveToLibraryAsync(selectedImageUri);
+          Alert.alert('Imagen guardada', 'La imagen se ha guardado en la galería.');
+        } else {
+          Alert.alert('Permiso denegado', 'No se otorgó permiso para acceder a la galería.');
+        }
       } catch (error) {
         console.error('Error saving image to gallery:', error);
         Alert.alert('Error', 'Ocurrió un error al intentar guardar la imagen en la galería.');
