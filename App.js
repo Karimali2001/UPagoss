@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 // Import your screens
+import RegisterNavigator from './screens/RegisterNavigator';
 import QueryNavigator from './screens/QueryNavigator';
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +22,10 @@ function App() {
 
             if (route.name === 'Consultar Pago') {
               iconName = focused ? 'md-search' : 'md-search';
+            } else if (route.name === 'Registrar Pago') {
+              iconName = focused ? 'camera' : 'camera-outline';
             }
+
             return <Ionicons name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: '#F99417',
@@ -35,6 +39,7 @@ function App() {
         })}
       >
         <Tab.Screen name="Consultar Pago" component={QueryNavigator} />
+        <Tab.Screen name="Registrar Pago" component={RegisterNavigator} />
       </Tab.Navigator>
     </NavigationContainer>
   );
