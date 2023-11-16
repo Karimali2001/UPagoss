@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Success from './Success'
 import RegisterWithCamera from './RegisterWithCamera'
 import Register from './Register'
+import RegisterVerification from './RegisterVerification'
 
 const Stack = createStackNavigator()
 
@@ -16,6 +17,7 @@ const RegisterNavigator = () => {
       <Stack.Screen name='Register' component={Register} />
         <Stack.Screen name='Success' component={Success} />
         <Stack.Screen name='RegisterWithCamera' component={RegisterWithCamera} />
+        <Stack.Screen name='RegisterVerification' component={RegisterVerification} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -10,7 +10,7 @@ const Register = () => {
   const handleInputChange = (newInputType) => {
     setInputType(newInputType);
     if (newInputType === 'manual') {
-      navigation.navigate('Success');
+      navigation.navigate('RegisterVerification');
     } else if (newInputType === 'camera') {
       navigation.navigate('RegisterWithCamera');
     }

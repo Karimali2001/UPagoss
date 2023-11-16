@@ -9,7 +9,7 @@ const Success = () => {
     const navigation = useNavigation();
   const goToRegisterPayment = () => {
     // Navigate to the screen for registering another payment
-    navigation.navigate('Delete'); // Replace 'RegisterPayment' with the actual screen name
+    navigation.navigate('Register'); // Replace 'RegisterPayment' with the actual screen name
   };
 
   return (
