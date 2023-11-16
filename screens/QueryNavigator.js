@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Queries from './Queries';
-import Payments from './Payments';
+// import Payments from './Payments';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +14,7 @@ const QueryNavigator = () => {
     <NavigationContainer independent={true}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Queries" component={Queries} />
-        <Stack.Screen name="Payments" component={Payments} />
+        {/* <Stack.Screen name="Payments" component={Payments} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
