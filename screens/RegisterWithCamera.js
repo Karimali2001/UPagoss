@@ -19,7 +19,7 @@ export default function RegisterWithCamera({ navigation }) {
     if (!result.canceled) {
       const extractedValues = await performOCR(result.assets[0]);
       setImage(result.assets[0].uri);
-      navigation.navigate('RegisterVerification', { ...extractedValues, imageUri: result.assets[0].uri });
+      navigation.navigate('Success', { ...extractedValues, imageUri: result.assets[0].uri });
     }
   };
 
@@ -33,7 +33,7 @@ export default function RegisterWithCamera({ navigation }) {
     if (!result.canceled) {
       const extractedValues = await performOCR(result.assets[0]);
       setImage(result.assets[0].uri);
-      navigation.navigate('RegisterVerification', { ...extractedValues, imageUri: result.assets[0].uri });
+      navigation.navigate('Success', { ...extractedValues, imageUri: result.assets[0].uri });
     }
   };
 

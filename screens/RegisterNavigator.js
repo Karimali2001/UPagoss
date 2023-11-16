@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import Success from './Success'
-import Delete from './Delete'
+import RegisterWithCamera from './RegisterWithCamera'
 import Register from './Register'
 
 const Stack = createStackNavigator()
@@ -15,7 +15,7 @@ const RegisterNavigator = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='Register' component={Register} />
         <Stack.Screen name='Success' component={Success} />
-        <Stack.Screen name='Delete' component={Delete} />
+        <Stack.Screen name='RegisterWithCamera' component={RegisterWithCamera} />
       </Stack.Navigator>
     </NavigationContainer>
   )
