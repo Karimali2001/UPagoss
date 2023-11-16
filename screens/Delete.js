@@ -5,17 +5,17 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const Success = () => {
+const Delete = () => {
     const navigation = useNavigation();
   const goToRegisterPayment = () => {
     // Navigate to the screen for registering another payment
-    navigation.navigate('Delete'); // Replace 'RegisterPayment' with the actual screen name
+    navigation.navigate('Success'); // Replace 'RegisterPayment' with the actual screen name
   };
 
   return (
     <View style={styles.container}>
       <Ionicons name="checkmark-circle-outline" size={100} color="#32CD32" />
-      <Text style={styles.successMessage}>Pago Registrado Exitosamente</Text>
+      <Text style={styles.successMessage}>Delete</Text>
       <TouchableOpacity style={styles.registerButton} onPress={goToRegisterPayment}>
         <Text style={styles.buttonText}>Registrar Otro Pago</Text>
       </TouchableOpacity>
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Success;
+export default Delete;
