@@ -32,14 +32,13 @@ const [date, setDate] = useState(formattedDate);
 
 
   const handleDateSelect = (event, selectedDate) => {
-    if (selectedDate === undefined) {
-      // User dismissed the date picker
-      setShowDatePicker(false);
-      return;
-    }
+    setShowDatePicker(Platform.OS === 'ios'); // For iOS, only dismiss when confirmed
 
-    setDate(selectedDate);
-    setShowDatePicker(false);
+    if (selectedDate) {
+      setDate(selectedDate);
+    } else {
+      setShowDatePicker(false);
+    }
   };
 
   const showDatepicker = () => {
@@ -118,27 +117,7 @@ const [date, setDate] = useState(formattedDate);
           testID="dateTimePicker"
           value={date}
           mode="date"
-          display="default"
-          onChange={handleDateSelect}
-        />
-      )}
-
-      {Platform.OS === 'ios' && showDatePicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          display="spinner"
-          onChange={handleDateSelect}
-        />
-      )}
-
-      {Platform.OS === 'android' && showDatePicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          display="calendar"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
           onChange={handleDateSelect}
         />
       )}

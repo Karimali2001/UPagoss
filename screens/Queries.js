@@ -1,10 +1,10 @@
-//pagina donde se ingresa la fecha y se le manda a la pagina de Payments
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Queries = () => {
   const navigation = useNavigation();
@@ -12,6 +12,7 @@ const Queries = () => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleDateSelect = (event, selectedDate) => {
     if (selectedDate === undefined) {
@@ -30,7 +31,6 @@ const Queries = () => {
 
   const handleButtonClick = () => {
     if (date) {
-      // Format the date in YYYY-MM-DD
       const formattedDate = moment(date).format('YYYY-MM-DD');
       navigation.navigate('Payments', {
         data: formattedDate,
@@ -42,6 +42,35 @@ const Queries = () => {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const removeAllImageUris = async () => {
+    try {
+      const currentPayments = await AsyncStorage.getItem('payments');
+      if (currentPayments !== null) {
+        const parsedPayments = JSON.parse(currentPayments);
+        const updatedPayments = parsedPayments.map((payment) => {
+          const { imageUri, ...paymentWithoutImage } = payment;
+          return paymentWithoutImage;
+        });
+        await AsyncStorage.setItem('payments', JSON.stringify(updatedPayments));
+      }
+    } catch (error) {
+      console.error('Error removing all image URIs from payments:', error);
+    }
+  };
+
+  const handleConfirmation = () => {
+    setShowConfirmationModal(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    setShowConfirmationModal(false);
+    removeAllImageUris();
   };
 
   return (
@@ -84,9 +113,29 @@ const Queries = () => {
         </View>
       </Modal>
 
-      <TouchableOpacity style={styles.submitButton} onPress={handleButtonClick}>
-        <Text style={styles.buttonText}>Consultar</Text>
-      </TouchableOpacity>
+  
+        <TouchableOpacity style={styles.submitButton} onPress={handleButtonClick}>
+          <Text style={styles.buttonText}>Consultar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleConfirmation}>
+          <Text style={styles.buttonText}>Borrar imagenes hasta la fecha</Text>
+        </TouchableOpacity>
+
+      <Modal visible={showConfirmationModal} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>¿Está seguro de borrar todas las imágenes?</Text>
+            <View style={styles.modalButtonsContainer}>
+              <TouchableOpacity style={styles.modalCancelButton} onPress={handleCancelDelete}>
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalDeleteButton} onPress={handleDeleteConfirmation}>
+                <Text style={styles.buttonText}>Borrar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -164,6 +213,34 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 250,
+    alignItems: 'center',
+  },
+  modalButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  modalCancelButton: {
+    backgroundColor: 'grey',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    flex: 1,
+    marginRight: 10,
+  },
+  modalDeleteButton: {
+    backgroundColor: 'red',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    flex: 1,
+    marginLeft: 10,
   },
 });
 
